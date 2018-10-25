@@ -11,16 +11,5 @@ class SearchesController < ApplicationController
   def foursquare
     foursquare = FoursquareService.new
     @resp = foursquare.foursquare(session[:token])
-
-    if @resp.success?
-      @venues = body["response"]["venues"]
-    else
-      @error = body["meta"]["errorDetail"]
-    end
-    render 'search'
-
-    rescue Faraday::TimeoutError
-      @error = "There was a timeout. Please try again."
-      render 'search'
   end
 end
