@@ -28,5 +28,16 @@ class FoursquareService
       req.params['query'] = 'coffee shop'
     end
     body = JSON.parse(@resp.body)
+
+    if @resp.success?
+      @venues = body["response"]["venues"]
+    else
+      @error = body["meta"]["errorDetail"]
+    end
+    render 'search'
+
+    rescue Faraday::TimeoutError
+      @error = "There was a timeout. Please try again."
+      render 'search'
   end
 end
